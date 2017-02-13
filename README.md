@@ -28,7 +28,7 @@ ViewImage是一个基于jQuery的插件，首先确保你的页面已经正确�
         });
     </script>
 
-## DEMO
+## DEMO http://view-image.git.nz/#demo
 
 我们提供了几个DEMO，方便您进一步了解ViewImage
 
