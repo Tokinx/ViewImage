@@ -1,6 +1,6 @@
 # ViewImage.js
 
-基于jQuery ，Gzip后不足 1kb 的极简灯箱插件
+基于jQuery ，Gzip后不足 1kb 的响应式极简灯箱插件
 
 ## 获取ViewImage.js
 
