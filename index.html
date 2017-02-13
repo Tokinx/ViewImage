@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ViewImage.js - 1kb minimalist lightbox.</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Based on jQuery, only 1kb of minimalist lightbox" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Tokin">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="view-image.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery.viewImage({
+                'target': '.view-image img,.view-image2 a,.view-image3 a', //需要使用ViewImage的图片
+                'exclude': '.exc',    //要排除的图片
+                'delay': 300                //延迟时间
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="main">
+        <div class="header">
+            <h1>ViewImage.js</h1>
+            <h2>基于jQuery ，Gzip后不足 1kb 的极简灯箱插件</h2>
+        </div>
+        <div class="content">
+            <h2 id="" class="content-subhead">获取ViewImage.js</h2>
+            <p>
+                你可以直接访问 <a href="###">ViewImage for GitHub</a> 来获取最新版插件
+            </p>
+            <p>
+                当然你也可以通过后面的链接下载ViewImage：<a href="view-image.js" download>view-image.js</a> or <a href="view-image.min.js"
+                    download>view-image.min.js</a>
+            </p>
+
+            <h2 id="" class="content-subhead">如何使用</h2>
+            <p>
+                ViewImage是一个基于jQuery的插件，首先确保你的页面已经正确引用该库类，然后再引用ViewImage.js。
+            </p>
+            <p>
+                <pre class="code"><code>&lt;script src=&quot;//view-image.git.nz/static/view-image.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+            </p>
+
+            <h2 id="" class="content-subhead">初始化并启用</h2>
+            <p>
+                我们为您提供了非常简便的初始化方法，方便您对程序进行一些个性化设置并正确启用
+            </p>
+            <p>
+                <pre class="code"><code>&lt;script&gt;
+    jQuery(document).ready(function () {
+        jQuery.viewImage({
+            &#x27;target&#x27; : &#x27;.view-image img&#x27;, //需要使用ViewImage的图片
+            &#x27;exclude&#x27;: &#x27;.exclude img&#x27;,    //要排除的图片
+            &#x27;delay&#x27;  : 300                //延迟时间
+        });
+    });
+&lt;/script&gt;</code></pre>
+            </p>
+
+            <h2 id="" class="content-subhead">DEMO</h2>
+            <p>
+                我们提供了几个DEMO，方便您进一步了解ViewImage
+            </p>
+            <p>
+                <pre class="code"><code>&lt;script&gt;
+    jQuery(document).ready(function () {
+        jQuery.viewImage({
+            &#x27;target&#x27;: &#x27;.view-image img,.view-image2 a,.view-image3 a&#x27;,
+            &#x27;exclude&#x27;: &#x27;.exc&#x27;,
+            &#x27;delay&#x27;: 300
+        });
+    });
+&lt;/script&gt;</code></pre>
+            </p>
+            <h2 id="" class="content-subhead">建议使用方法</h2>
+            <ul class="view-image pure-g">
+                <li class="pure-u-1-4"><img src="//cn.bing.com/az/hprichbg/rb/HallwylfjelletSunset_ROW10188936897_1920x1080.jpg" alt="bingImg"></li>
+                <li class="pure-u-1-4"><img src="//cn.bing.com/az/hprichbg/rb/Cassiopea_ROW11075738897_1920x1080.jpg" alt="bingImg"></li>
+                <li class="pure-u-1-4"><img src="//cn.bing.com/az/hprichbg/rb/TofinoBeach_ROW12752648472_1920x1080.jpg" alt="bingImg"></li>
+                <li class="pure-u-1-4 imgfalse"><img src="//cn.bing.com/az/hprichbg/rb/JedburghAbbey_ROW14767458215_1920x1080.jpg" alt="bingImg" class="exc"></li>
+            </ul>
+            <pre class="code"><code>&lt;ul class=&quot;view-image&quot;&gt;
+    &lt;li&gt;&lt;img src=&quot;原图&quot;&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;img src=&quot;原图&quot;&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;img src=&quot;原图&quot;&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;img src=&quot;原图&quot; class=&quot;exc&quot;&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+            <h2 id="" class="content-subhead">A 链接指向图片</h2>
+            <ul class="view-image2 pure-g">
+                <li class="pure-u-1-2"><a href="//cn.bing.com/az/hprichbg/rb/ItapuaLighthouse_ROW12840278122_1920x1080.jpg">可用</a></li>
+                <li class="pure-u-1-2 imgfalse"><a href="//cn.bing.com/az/hprichbg/rb/ItapuaLighthouse_ROW12840278122_1920x1080.jpg" class="exc">不可用</a></li>
+            </ul>
+            <pre class="code"><code>&lt;ul class=&quot;view-image2&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;原图&quot;&gt;可用&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;原图&quot; class=&quot;exc&quot;&gt;不可用&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+            <h2 id="" class="content-subhead">A 链接指向图片并嵌套图片</h2>
+            <ul class="view-image3 pure-g">
+                <li class="pure-u-1-2">
+                    <a href="//cn.bing.com/az/hprichbg/rb/UtahLakeSunrise_ROW9563949304_1920x1080.jpg"><img src="//cn.bing.com/az/hprichbg/rb/UtahLakeSunrise_ROW9563949304_1920x1080.jpg" alt="bingImg"></a>
+                </li>
+                <li class="pure-u-1-2 imgfalse">
+                    <a href="//cn.bing.com/az/hprichbg/rb/JedburghAbbey_ROW14767458215_1920x1080.jpg" class="exc"><img src="//cn.bing.com/az/hprichbg/rb/JedburghAbbey_ROW14767458215_1920x1080.jpg" alt="bingImg"></a>
+                </li>
+            </ul>
+            <pre class="code"><code>&lt;ul class=&quot;view-image3&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;原图&quot;&gt;&lt;img src=&quot;缩略图 或 原图&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;原图&quot; class=&quot;exc&quot;&gt;&lt;img src=&quot;缩略图 或 原图&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+        </div>
+
+
+        <div class="footer">
+            <div class="legal pure-g content">
+                <div class="pure-u-1">
+                    <p>
+                        <a href="https://github.com/###/">GitHub Project</a>
+                    </p>
+                    <p class="legal-copyright">
+                        © 2017 Biji.IO. All rights reserved.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
