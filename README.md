@@ -2,19 +2,19 @@
 
 基于jQuery ，Gzip后不足 1kb 的响应式极简灯箱插件
 
-## 获取ViewImage.js
+## 获取
 
-你可以直接访问 ViewImage for GitHub 来获取最新版插件
+你可以直接访问ViewImage的  GitHub 来获取最新版插件，当然你也可以通过下面的链接下载ViewImage：
 
-当然你也可以通过后面的链接下载ViewImage：view-image.js or view-image.min.js
+[view-image.js][1] or [view-image.min.js][2]
 
-## 如何使用
+## 引用
 
-ViewImage是一个基于jQuery的插件，首先确保你的页面已经正确引用该库类，然后再引用ViewImage.js。
+首先确保你的页面已经正确引用jQuery（建议2.0+），然后再引用ViewImage.js。
 
-    <script src="//view-image.git.nz/static/view-image.min.js"></script>
+    <script src="http://git.biji.io/view-image/view-image.min.js"></script>
 
-## 初始化并启用
+## 启用
 
 我们为您提供了非常简便的初始化方法，方便您对程序进行一些个性化设置并正确启用
 
@@ -28,7 +28,7 @@ ViewImage是一个基于jQuery的插件，首先确保你的页面已经正确�
         });
     </script>
 
-## DEMO http://view-image.git.nz/#demo
+## 示例 http://git.biji.io/view-image/#id-demo
 
 我们提供了几个DEMO，方便您进一步了解ViewImage
 
@@ -42,7 +42,7 @@ ViewImage是一个基于jQuery的插件，首先确保你的页面已经正确�
         });
     </script>
 
-### 建议使用方法
+### [图片]
 
     <ul class="view-image">
         <li><img src="原图"></li>
@@ -51,16 +51,19 @@ ViewImage是一个基于jQuery的插件，首先确保你的页面已经正确�
         <li><img src="原图" class="exc"></li>
     </ul>
 
-### A 链接指向图片
+### [链接] + [文字]
 
     <ul class="view-image2">
         <li><a href="原图">可用</a></li>
         <li><a href="原图" class="exc">不可用</a></li>
     </ul>
 
-### A 链接指向图片并嵌套图片
+### [链接] + [缩略图]
 
     <ul class="view-image3">
-    <li><a href="原图"><img src="缩略图 或 原图"></a></li>
-    <li><a href="原图" class="exc"><img src="缩略图 或 原图"></a></li>
+        <li><a href="原图"><img src="缩略图 或 原图"></a></li>
+        <li><a href="原图" class="exc"><img src="缩略图 或 原图"></a></li>
     </ul>
+
+  [1]: http://git.biji.io/view-image/view-image.js
+  [2]: http://git.biji.io/view-image/view-image.min.js
