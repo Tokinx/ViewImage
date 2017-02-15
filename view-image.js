@@ -8,7 +8,7 @@
  * @license MIT License - http://www.opensource.org/licenses/mit-license.php
  *
  * For usage and examples, visit:
- * http://view-image.git.nz/
+ * http://git.biji.io/view-image/
  *
  * Copyright (c) 2017, Biji.IO
  */
