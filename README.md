@@ -12,7 +12,7 @@
 
 首先确保你的页面已经正确引用jQuery（建议2.0+），然后再引用ViewImage.js。
 
-    <script src="http://git.biji.io/view-image/view-image.min.js"></script>
+    <script src="//tokinx.github.io/view-image/view-image.min.js"></script>
 
 ## 启用
 
@@ -65,5 +65,5 @@
         <li><a href="原图" class="exc"><img src="缩略图 或 原图"></a></li>
     </ul>
 
-  [1]: http://git.biji.io/view-image/view-image.js
-  [2]: http://git.biji.io/view-image/view-image.min.js
+  [1]: https://tokinx.github.io/view-image/view-image.js
+  [2]: https://tokinx.github.io/view-image/view-image.min.js
