@@ -8,7 +8,7 @@
  * @license MIT License - http://www.opensource.org/licenses/mit-license.php
  *
  * For usage and examples, visit:
- * https://tokinx.github.io/view-image
+ * https://tokinx.github.io/ViewImage/
  *
  * Copyright (c) 2017, Biji.IO
  */
