@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ViewImage.js - 1kb minimalist lightbox.</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Based on jQuery, only 1kb of responsive minimalist lightbox." />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Tokin">
+    <link rel="stylesheet" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="view-image.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery.viewImage({
+                'target': '.view-image img,.view-image2 a,.view-image3 a', //需要使用ViewImage的图片
+                'exclude': '.exc',    //要排除的图片
+                'delay': 300                //延迟时间
+            });
+
+            $('.copy-time').html(new Date().getFullYear());
+        });
+		
+        (function() {
+            var link_element = document.createElement("link"),
+                s = document.getElementsByTagName("script")[0];
+            if (window.location.protocol !== "http:" && window.location.protocol !== "https:") {
+                link_element.href = "http:";
+            }
+            link_element.href += "//fonts.proxy.ustclug.org/css?family=Exo+2:100italic,100,200italic,200,300italic,300,400italic,400,500italic,500,600italic,600,700italic,700,800italic,800,900italic,900";
+            link_element.rel = "stylesheet";
+            link_element.type = "text/css";
+            s.parentNode.insertBefore(link_element, s);
+        })();
+        </script>
+</head>
+
+<body>
+    <div id="main">
+        <div class="header">
+		<div class="pure-menu pure-menu-horizontal biji-navs">
+		    <ul class="pure-menu-list content">
+			<li class="pure-menu-item"><a href="#id-get" class="pure-menu-link">获取</a></li>
+			<li class="pure-menu-item"><a href="#id-help" class="pure-menu-link">引用</a></li>
+			<li class="pure-menu-item"><a href="#id-start" class="pure-menu-link">启用</a></li>
+			<li class="pure-menu-item"><a href="#id-demo" class="pure-menu-link">示例</a></li>
+			<li class="pure-menu-item"><a href="https://github.com/Tokinx/ViewImage" target="_blank" class="pure-menu-link">GtiHub</a></li>
+		    </ul>
+		</div>
+            <h1>ViewImage.js</h1>
+            <h2>基于jQuery ，Gzip后不足 1kb 的响应式极简灯箱插件</h2>
+        </div>
+        <div class="content">
+            <h2 id="id-get" class="content-subhead">获取</h2>
+            <p>
+                你可以直接访问ViewImage的 <a href="https://github.com/Tokinx/ViewImage" target="_blank" class="pure-button pure-button-primary"><i class="iconfont icon-github"></i> GitHub</a> 来获取最新版插件，当然你也可以通过下面的链接下载ViewImage：
+            </p>
+            <p>
+				<a href="view-image.js" class="pure-button" download><i class="iconfont icon-download"></i> view-image.js</a> or <a href="view-image.min.js" class="pure-button"
+                    download><i class="iconfont icon-download"></i> view-image.min.js</a>
+            </p>
+
+            <h2 id="id-help" class="content-subhead">引用</h2>
+            <p>
+                首先确保你的页面已经正确引用jQuery（建议2.0+），然后再引用ViewImage.js。
+            </p>
+            <p>
+                <pre class="code prettyprint"><code>&lt;script src=&quot;//tokinx.github.io/view-image/view-image.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+            </p>
+
+            <h2 id="id-start" class="content-subhead">启用</h2>
+            <p>
+                我们为您提供了非常简便的初始化方法，方便您对程序进行一些个性化设置并正确启用
+            </p>
+            <p>
+                <pre class="code prettyprint"><code>&lt;script&gt;
+    jQuery(document).ready(function () {
+        jQuery.viewImage({
+            &#x27;target&#x27; : &#x27;.view-image img&#x27;, //需要使用ViewImage的图片
+            &#x27;exclude&#x27;: &#x27;.exclude img&#x27;,    //要排除的图片
+            &#x27;delay&#x27;  : 300                //延迟时间
+        });
+    });
+&lt;/script&gt;</code></pre>
+            </p>
+
+            <h2 id="id-demo" class="content-subhead">示例</h2>
+            <p>
+                我们提供了几个DEMO，方便您进一步了解ViewImage
+            </p>
+            <p>
+                <pre class="code prettyprint"><code>&lt;script&gt;
+    jQuery(document).ready(function () {
+        jQuery.viewImage({
+            &#x27;target&#x27;: &#x27;.view-image img,.view-image2 a,.view-image3 a&#x27;,
+            &#x27;exclude&#x27;: &#x27;.exc&#x27;,
+            &#x27;delay&#x27;: 300
+        });
+    });
+&lt;/script&gt;</code></pre>
+            </p>
+            <h3 class="content-subhead">[图片]</h3>
+            <ul class="view-image pure-g">
+                <li class="pure-u-1-4"><img src="//cn.bing.com/az/hprichbg/rb/HallwylfjelletSunset_ROW10188936897_1920x1080.jpg" alt="bingImg"></li>
+                <li class="pure-u-1-4"><img src="//cn.bing.com/az/hprichbg/rb/Cassiopea_ROW11075738897_1920x1080.jpg" alt="bingImg"></li>
+                <li class="pure-u-1-4"><img src="//cn.bing.com/az/hprichbg/rb/TofinoBeach_ROW12752648472_1920x1080.jpg" alt="bingImg"></li>
+                <li class="pure-u-1-4 imgfalse"><img src="//cn.bing.com/az/hprichbg/rb/JedburghAbbey_ROW14767458215_1920x1080.jpg" alt="bingImg" class="exc"></li>
+            </ul>
+            <pre class="code prettyprint"><code>&lt;ul class=&quot;view-image&quot;&gt;
+    &lt;li&gt;&lt;img src=&quot;原图&quot;&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;img src=&quot;原图&quot;&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;img src=&quot;原图&quot;&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;img src=&quot;原图&quot; class=&quot;exc&quot;&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+            <h3 class="content-subhead">[链接] + [文字]</h3>
+            <ul class="view-image2 pure-g">
+                <li class="pure-u-1-2"><a href="//cn.bing.com/az/hprichbg/rb/ItapuaLighthouse_ROW12840278122_1920x1080.jpg">可用</a></li>
+                <li class="pure-u-1-2 imgfalse"><a href="//cn.bing.com/az/hprichbg/rb/ItapuaLighthouse_ROW12840278122_1920x1080.jpg" class="exc">不可用</a></li>
+            </ul>
+            <pre class="code prettyprint"><code>&lt;ul class=&quot;view-image2&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;原图&quot;&gt;可用&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;原图&quot; class=&quot;exc&quot;&gt;不可用&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+            <h3 class="content-subhead">[链接] + [缩略图]</h3>
+            <ul class="view-image3 pure-g">
+                <li class="pure-u-1-2">
+                    <a href="//cn.bing.com/az/hprichbg/rb/UtahLakeSunrise_ROW9563949304_1920x1080.jpg"><img src="//cn.bing.com/az/hprichbg/rb/UtahLakeSunrise_ROW9563949304_1920x1080.jpg" alt="bingImg"></a>
+                </li>
+                <li class="pure-u-1-2 imgfalse">
+                    <a href="//cn.bing.com/az/hprichbg/rb/JedburghAbbey_ROW14767458215_1920x1080.jpg" class="exc"><img src="//cn.bing.com/az/hprichbg/rb/JedburghAbbey_ROW14767458215_1920x1080.jpg" alt="bingImg"></a>
+                </li>
+            </ul>
+            <pre class="code prettyprint"><code>&lt;ul class=&quot;view-image3&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;原图&quot;&gt;&lt;img src=&quot;缩略图 或 原图&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;原图&quot; class=&quot;exc&quot;&gt;&lt;img src=&quot;缩略图 或 原图&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+            <h2 id="id-cpb" class="content-subhead">兼容性</h2>
+            <table class="pure-table">
+                <thead>
+                <tr>
+                    <th>D\T</th>
+                    <th>Firefox</th>
+                    <th>Chrome</th>
+                    <th>MSIE</th>
+                    <th>Safari</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr class="pure-table-odd">
+                    <td>PC</td>
+                    <td>>=3.5</td>
+                    <td>Yes</td>
+                    <td>>=9</td>
+                    <td>>=3.1</td>
+                </tr>
+
+                <tr>
+                    <td>Mobile</td>
+                    <td>Null</td>
+                    <td>Null</td>
+                    <td>Null</td>
+                    <td>Null</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="footer">
+            <div class="legal pure-g content">
+                <div class="pure-u-1">
+                    <p>
+                        <a href="https://github.com/Tokinx/ViewImage" target="_blank">GitHub Project</a> /
+                        <a href="https://biji.io" target="_blank">Author Blog</a>
+                    </p>
+                    <p class="legal-copyright">
+                        <a class="logo" href="https://biji.io"></a> © <time class="copy-time"></time> Biji.IO. All rights reserved.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

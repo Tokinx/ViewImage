@@ -1,0 +1,757 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: "iconfont";
+    src: url('iconfont.eot?t=1487054662778'); /* IE9*/
+    src: url('iconfont.eot?t=1487054662778#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('iconfont.woff?t=1487054662778') format('woff'), /* chrome, firefox */ url('iconfont.ttf?t=1487054662778') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/ url('iconfont.svg?t=1487054662778#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 1.2em;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-github:before {
+    content: "\e69f";
+}
+
+.icon-download:before {
+    content: "\e63e";
+}
+
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+body,.pure-g [class *="pure-u"]{
+    font-family: "Exo 2", "iconfont", "Trebuchet MS", "Helvetica", "Arial", 'PingFang SC', 'Hiragino Sans GB', 'STHeiti Light', 'Microsoft YaHei', 'SimHei', 'WenQuanYi Micro Hei', sans-serif;
+    letter-spacing: 0.08em;
+}
+/* --------------------------
+ * Element Styles
+ * --------------------------
+*/
+
+body {
+    min-width: 320px;
+    color: #777;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    color: rgb(75, 75, 75);
+}
+
+h3 {
+    font-size: 1.25em;
+}
+
+h4 {
+    font-size: 1.125em;
+}
+
+a {
+    color: #3b8bba; /* block-background-text-normal */
+    text-decoration: none;
+}
+
+a:visited {
+    color: #265778; /* block-normal-text-normal */
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin: 0 0 10px 0;
+}
+
+aside {
+    background: #1f8dd6; /* same color as selected state on site menu */
+    padding: 0.3em 1em;
+    border-radius: 3px;
+    color: #fff;
+}
+
+aside a, aside a:visited {
+    color: rgb(169, 226, 255);
+}
+
+/* --------------------------
+ * Layout Styles
+ * --------------------------
+*/
+
+/* Navigation Push Styles */
+#layout {
+    position: relative;
+    padding-left: 0;
+}
+
+#layout.active {
+    position: relative;
+    left: 160px;
+}
+
+#layout.active #menu {
+    left: 160px;
+    width: 160px;
+}
+
+/* Apply the .box class on the immediate parent of any grid element (pure-u-*) to apply some padding. */
+.l-box {
+    padding: 1em;
+}
+
+.l-wrap {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content .l-wrap {
+    margin-left: -1em;
+    margin-right: -1em;
+}
+
+/* Header */
+.header {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 4% 1em 6%;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.header h1 {
+    font-size: 300%;
+    font-weight: 400;
+    margin: 0;
+}
+
+.header h2 {
+    font-size: 125%;
+    line-height: 1.5;
+    font-weight: 300;
+    margin: 0;
+    color: #aaa;
+}
+
+/* --------------------------
+ * Content Module Styles
+ * --------------------------
+*/
+
+/* The content div is placed as a wrapper around all the docs */
+.content {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1em;
+    padding-right: 1em;
+    max-width: 768px;
+}
+
+.content .content-subhead {
+    padding: 2em 0 0 0;
+    font-weight: 300;
+    position: relative;
+    color: #888;
+}
+
+.content h1.content-subhead {
+    padding-bottom: .2em;
+    border-bottom: 1px solid #eee;
+}
+
+.content h2.content-subhead:before {
+    content: '#';
+    margin: 0 .2em 0 0;
+    color: #0078e7;
+}
+.content h3.content-subhead{
+    font-size: 110%;
+}
+
+.content .content-spaced {
+    line-height: 1.8;
+}
+
+.content .content-quote {
+    color: #666;
+    line-height: 1.8;
+    border-left: 5px solid #ddd;
+    padding-left: 1.5em;
+}
+
+.content-link {
+    color: #0078e7 !important;
+}
+
+/* --------------------------
+ * Code Styles
+ * --------------------------
+*/
+
+pre,
+code {
+    font-family: Consolas, Courier, monospace;
+    letter-spacing: 0.04em;
+}
+
+/*! Color themes for Google Code Prettify | MIT License | github.com/jmblog/color-themes-for-google-code-prettify */
+.prettyprint {
+    background: #fff;
+    border: 0 !important
+}
+
+.pln {
+    color: #4d4d4c
+}
+
+ol.linenums {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #8e908c !important
+}
+
+li.L0, li.L1, li.L2, li.L3, li.L4, li.L5, li.L6, li.L7, li.L8, li.L9 {
+    padding-left: 1em;
+    background-color: #fff;
+    list-style-type: decimal
+}
+
+@media screen {
+    .str {
+        color: #718c00 !important
+    }
+
+    .kwd {
+        color: #8959a8 !important
+    }
+
+    .com {
+        color: #8e908c !important
+    }
+
+    .typ {
+        color: #4271ae !important
+    }
+
+    .lit {
+        color: #f5871f !important
+    }
+
+    .pun {
+        color: #4d4d4c !important
+    }
+
+    .opn {
+        color: #4d4d4c !important
+    }
+
+    .clo {
+        color: #4d4d4c !important
+    }
+
+    .tag {
+        color: #c82829 !important
+    }
+
+    .atn {
+        color: #f5871f !important
+    }
+
+    .atv {
+        color: #3e999f !important
+    }
+
+    .dec {
+        color: #f5871f !important
+    }
+
+    .var {
+        color: #c82829 !important
+    }
+
+    .fun {
+        color: #4271ae !important
+    }
+}
+
+.prettyprint {
+    border: 1px solid #eee !important;
+    padding: 2% !important;
+}
+
+/* --------------------------
+ * Footer Module Styles
+ * --------------------------
+*/
+
+.footer {
+    font-size: 87.5%;
+    border-top: 1px solid #eee;
+    margin-top: 3.4286em;
+    padding: 5% 0;
+}
+
+.legal {
+    line-height: 1.6;
+    margin: 0 auto;
+}
+
+.legal-license {
+    margin-top: 0;
+}
+
+.legal-links {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.legal-copyright {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.legal-copyright .logo {
+    display: inline-block;
+    width: 50px;
+    height: 18px;
+    background: #3274ff;
+    position: relative;
+    margin: 0 36px 0 0;
+    top: .2em;
+}
+
+.legal-copyright .logo:before, .legal-copyright .logo:after {
+    content: '';
+    background: #3274ff;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    right: -18px;
+    opacity: .8;
+}
+
+.legal-copyright .logo:after {
+    background: #3274ff;
+    right: -36px;
+    opacity: .6;
+}
+
+/* --------------------------
+ * Main Navigation Bar Styles
+ * --------------------------
+*/
+
+/* Add transition to containers so they can push in and out */
+#layout,
+#menu,
+.menu-link {
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+
+#layout.active .menu-link {
+    left: 160px;
+}
+
+#menu {
+    margin-left: -160px; /* "#menu" width */
+    width: 160px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000; /* so the menu or its navicon stays above all content */
+    background: #191818;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#menu a {
+    color: #999;
+    border: none;
+    white-space: normal;
+    padding: 0.625em 1em;
+}
+
+#menu .pure-menu-open {
+    background: transparent;
+    border: 0;
+}
+
+#menu .pure-menu ul {
+    border: none;
+    background: transparent;
+}
+
+#menu .pure-menu ul,
+#menu .pure-menu .menu-item-divided {
+    border-top: 1px solid #333;
+}
+
+#menu .pure-menu li a:hover,
+#menu .pure-menu li a:focus {
+    background: #333;
+}
+
+.menu-link {
+    position: fixed;
+    display: block; /* show this only on small screens */
+    top: 0;
+    left: 0; /* "#menu width" */
+    background: #000;
+    background: rgba(0, 0, 0, 0.7);
+    font-size: 11px; /* change this value to increase/decrease button size */
+    z-index: 10;
+    width: 4em;
+    height: 4em;
+    padding: 1em;
+}
+
+.menu-link:hover,
+.menu-link:focus {
+    background: #000;
+}
+
+.menu-link span {
+    position: relative;
+    display: block;
+    margin-top: 0.9em;
+}
+
+.menu-link span,
+.menu-link span:before,
+.menu-link span:after {
+    background-color: #fff;
+    width: 100%;
+    height: .2em;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.menu-link span:before,
+.menu-link span:after {
+    position: absolute;
+    top: -.55em;
+    content: " ";
+}
+
+.menu-link span:after {
+    top: .55em;
+}
+
+.menu-link.active span {
+    background: transparent;
+}
+
+.menu-link.active span:before {
+    -webkit-transform: rotate(45deg) translate(.5em, .4em);
+    -moz-transform: rotate(45deg) translate(.5em, .4em);
+    -ms-transform: rotate(45deg) translate(.5em, .4em);
+    -o-transform: rotate(45deg) translate(.5em, .4em);
+    transform: rotate(45deg) translate(.5em, .4em);
+}
+
+.menu-link.active span:after {
+    -webkit-transform: rotate(-45deg) translate(.4em, -.3em);
+    -moz-transform: rotate(-45deg) translate(.4em, -.3em);
+    -ms-transform: rotate(-45deg) translate(.4em, -.3em);
+    -o-transform: rotate(-45deg) translate(.4em, -.3em);
+    transform: rotate(-45deg) translate(.4em, -.3em);
+}
+
+#menu .pure-menu-heading {
+    font-size: 125%;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: #fff;
+    margin-top: 0;
+    padding: 0.5em 0.8em;
+}
+
+#menu .pure-menu-heading:hover,
+#menu .pure-menu-heading:focus {
+    color: #999;
+}
+
+#menu .pure-menu-selected {
+    background: #1f8dd6;
+}
+
+#menu .pure-menu-selected a {
+    color: #fff;
+}
+
+#menu li.pure-menu-selected a:hover,
+#menu li.pure-menu-selected a:focus {
+    background: none;
+}
+
+/* ---------------------
+ * Smaller Module Styles
+ * ---------------------
+*/
+
+.pure-img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+.pure-paginator .pure-button {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.pure-button {
+    font-family: inherit;
+}
+
+a.pure-button-primary {
+    color: white;
+}
+
+/* green call to action button class */
+.notice {
+    background-color: #61B842;
+    color: white;
+}
+
+.muted {
+    color: #ccc;
+}
+
+/* -------------
+ * Table Styles
+ * -------------
+*/
+.pure-table{
+    width:100%;
+    border: 1px solid #eee;
+}
+.pure-table thead{
+    background:#eee;
+}
+.pure-table-odd td{
+    background:#fafafa;
+}
+.pure-table th,
+.pure-table td {
+    padding: 0.5em 1em;
+    border-left: 1px solid #eee;
+}
+
+.table-responsive {
+    margin-left: -1em;
+    margin-right: -1em;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 1em;
+}
+
+.table-responsive table {
+    width: 100%;
+    min-width: 35.5em;
+    border-left-width: 0;
+    border-right-width: 0;
+}
+
+.table-responsive .mq-table {
+    width: 100%;
+    min-width: 44em;
+}
+
+.mq-table th.highlight {
+    background-color: rgb(255, 234, 133);
+}
+
+.mq-table td.highlight {
+    background-color: rgb(255, 250, 229);
+}
+
+.mq-table th.highlight code,
+.mq-table td.highlight code {
+    background: rgb(255, 255, 243);
+}
+
+.mq-table-mq code {
+    font-size: 0.875em;
+}
+
+/* ----------------------------
+ * Example for full-width Grids
+ * ----------------------------
+*/
+
+.grids-example {
+    background: rgb(250, 250, 250);
+    margin: 2em auto;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+/* --------------------------
+ * State Rules
+ * --------------------------
+*/
+
+.is-code-full {
+    text-align: center;
+}
+
+.is-code-full .code {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --------------------------
+ * Responsive Styles
+ * --------------------------
+*/
+
+@media screen and (min-width: 48em) {
+
+    .l-wrap,
+    .l-wrap .content {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+
+    .content .l-wrap {
+        margin-left: -2em;
+        margin-right: -2em;
+    }
+
+    .header,
+    .content {
+        padding-left: 2em;
+        padding-right: 2em;
+    }
+
+    .header {
+        padding: 4em 2em;
+    }
+
+    .header h1 {
+        font-size: 320%;
+    }
+
+    .header h2 {
+        font-size: 128%;
+    }
+
+    .content p {
+        font-size: 1rem;
+    }
+
+    .code {
+        margin-left: auto;
+        margin-right: auto;
+        border-left-width: 1px;
+        border-right-width: 1px;
+    }
+
+    .table-responsive {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .table-responsive table {
+        border-left-width: 1px;
+        border-right-width: 1px;
+    }
+
+}
+
+.biji-navs {
+    display: none;
+}
+
+@media (min-width: 48em) {
+    .biji-navs {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background:#fff;
+        z-index:9;
+    }
+
+    #layout {
+        padding-left: 160px; /* left col width "#menu" */
+        left: 0;
+    }
+
+    #menu {
+        left: 160px;
+    }
+
+    .menu-link {
+        position: fixed;
+        left: 160px;
+        display: none;
+    }
+
+    #layout.active .menu-link {
+        left: 160px;
+    }
+
+}
+
+.view-image, .view-image2, .view-image3 {
+    list-style: none;
+    padding: 0;
+    line-height: 0;
+}
+
+.view-image li, .view-image2 li, .view-image3 li {
+    position: relative;
+}
+
+.view-image li img, .view-image3 li img {
+    width: 100%;
+    box-shadow: 0 0 0 6px #fff;
+}
+
+.view-image2 {
+    margin: 2% 0;
+}
+
+.view-image2 li {
+    text-align: center;
+    line-height: 80px;
+    box-shadow: 0 0 0 1px #eee inset;
+}
+
+.view-image2 li:last-child {
+    background: #eee
+}
+
+.view-image li.imgfalse:before, .view-image2 li.imgfalse:before, .view-image3 li.imgfalse:before {
+    content: 'false';
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #f55;
+    width: 50px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+}
