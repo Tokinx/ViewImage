@@ -12,7 +12,7 @@
 
 首先确保你的页面已经正确引用jQuery（建议2.0+），然后再引用ViewImage.js。
 
-    <script src="//tokinx.github.io/view-image/view-image.min.js"></script>
+    <script src="//tokinx.github.io/ViewImage/view-image.min.js"></script>
 
 ## 启用
 
@@ -28,7 +28,7 @@
         });
     </script>
 
-## 示例 http://git.biji.io/view-image/#id-demo
+## 示例 https://tokinx.github.io/ViewImage/#id-demo
 
 我们提供了几个DEMO，方便您进一步了解ViewImage
 
