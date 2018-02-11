@@ -2,7 +2,7 @@
  * ViewImage is a jQuery plugin that makes it easy to support automatically
  *
  * @name ViewImage.js
- * @version 1.0.0
+ * @version 1.2.0
  * @requires jQuery v2.0+
  * @author Tokin (Tokinx)
  * @license MIT License - http://www.opensource.org/licenses/mit-license.php
@@ -17,34 +17,43 @@
         viewImage: function (options) {
             var setting = $.extend({
                 'target': '.view-image img',
-                'exclude': '',
-                'delay': 300
+                'exclude': ''
             }, options);
             $(setting.exclude).attr("view-image", false);
-            $(setting.target).click(function () {
-                var src = $(this).attr('src'),
-                    href = $(this).attr('href'),
-                    url = '',
-                    vicss = "<style class='view-image-css'>.view-img{position:fixed;background:#fff;background:rgba(255,255,255,.99);width:100%;height:100%;top:0;left:0;text-align:center;padding:2%;z-index:999;cursor: zoom-out}.view-img img,.view-img span{max-width:100%;max-height:100%;position:relative;top:50%;transform: translateY(-50%);}.view-img img{animation:view-img-show .8s -0.1s ease-in-out}.view-img span{height:2em;color:#AAB2BD;overflow:hidden;position:absolute;top:50%;left:0;right:0;width:120px;text-align:center;margin:-1em auto;}.view-img span:after{content:'';position:absolute;bottom:0;left:0;transform: translateX(-100%);width:100%;height:2px;background:#3274ff;animation:view-img-load .8s -0.1s ease-in-out infinite;}@keyframes view-img-load{0%{transform: translateX(-100%);}100%{transform: translateX(100%);}}@keyframes view-img-show{0%{opacity:0;}100%{opacity:1;}}</style>";
-                if (!$(this).attr("view-image") && !$(this).attr("rel")) {
-                    url = src ? src : href;
-                    $("body").append(vicss + "<div class='view-img'><span>loading...</span></div>");
-                    setTimeout(function () {
-                        var obj = new Image();
-                        obj.src = url;
-                        obj.onload = function () {
-                            //console.log("Width:" + obj.width + " Height:" + obj.height);
-                            $(".view-img").html("<img src=" + this.src + ">");
+            $(setting.target).click(function (dt) {
+                dt = {
+                    t: $(this),
+                    z: 0.9,
+                    m: Math.min,
+                    ww: $(window).width(),
+                    wh: $(window).height()
+                };
+                if (!$(this).attr("view-image") && !$(this).is(setting.exclude) && !$(this).attr("rel") && (dt.t.attr('src') || dt.t.attr('href').match(/.+\.(jpg|jpeg|webp|gif|png)/gi))) {
+                    if (dt.t.attr('src')) {
+                        dt.is = (dt.t[0].style.cursor === "zoom-out");
+                        dt.os = dt.t.offset();
+                        dt.w = dt.t.width();
+                        dt.h = dt.t.height();
+                        dt.scale = dt.is ? 1 : dt.m((dt.m(dt.t[0].naturalWidth, dt.ww * dt.z) / dt.w), (dt.m(dt.t[0].naturalHeight, dt.wh * dt.z) / dt.h));
+                        dt.X = dt.is ? 0 : (-dt.os.left + (dt.ww - dt.w) / 2) / dt.scale;
+                        dt.Y = dt.is ? 0 : (-dt.os.top + (dt.wh - dt.h) / 2 + $(document).scrollTop()) / dt.scale;
+                        dt.t.attr('style', (dt.is ? "" : "position: relative;z-index: 999;") + "transition: transform 0.4s;transform: scale(" + dt.scale + ") translate(" + dt.X + "px, " + dt.Y + "px);cursor: zoom-" + (dt.is ? "in" : "out") + ";");
+                    } else {
+                        dt.w = dt.m(dt.o.width, dt.ww * dt.z);
+                        dt.h = dt.m(dt.o.height, dt.wh * dt.z);
+                        dt.o = new Image().src = dt.t.attr('href');
+                        dt.c = ".vi-" + Math.random().toString(36).substr(2);
+                        $("body").append("<div class='" + dt.c.substr(1) + "' style='position: fixed;background: rgba(255, 255, 255, " + dt.z + ");top: 0;left: 0;right: 0;bottom: 0;z-index: 999;'></div>");
+                        dt.o.onload = function () {
+                            $(dt.c).html("<img src=" + this.src + " style='position: absolute;top: 50%;left: 50%;margin-top:-" + (dt.h / 2) + "px;margin-left:-" + (dt.w / 2) + "px;'>");
                         }
-                        $('.view-img').click(function () {
-                            $('.view-image-css').remove();
+                        $(dt.c).click(function () {
                             $(this).remove();
                         });
-                    }, setting.delay);
+                    }
                     return false;
                 }
             });
-            return;
         }
     });
 })(jQuery);
