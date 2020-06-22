@@ -65,5 +65,5 @@
         <li><a href="原图" class="exc"><img src="缩略图 或 原图"></a></li>
     </ul>
 
-  [1]: https://tokinx.github.io/view-image/view-image.js
-  [2]: https://tokinx.github.io/view-image/view-image.min.js
+  [1]: https://tokinx.github.io/ViewImage/view-image.js
+  [2]: https://tokinx.github.io/ViewImage/view-image.min.js
