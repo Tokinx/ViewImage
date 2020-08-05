@@ -2,7 +2,7 @@
  * ViewImage is a jQuery plugin that makes it easy to support automatically
  *
  * @name ViewImage.js
- * @version 1.3.1
+ * @version 1.3.2
  * @requires jQuery v2.0+
  * @author Tokin (Tokinx)
  * @license MIT License - http://www.opensource.org/licenses/mit-license.php
