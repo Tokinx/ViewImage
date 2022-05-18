@@ -10,8 +10,6 @@ Gzip后仅 2kb，小巧卓越的原生JavaScript灯箱插件
 
 ## 引用
 
-首先确保你的页面已经正确引用jQuery（建议2.0+），然后再引用ViewImage.js。
-
     <script src="//tokinx.github.io/ViewImage/view-image.min.js"></script>
 
 ## 启用
