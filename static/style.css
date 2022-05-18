@@ -713,37 +713,25 @@ a.pure-button-primary {
 
 }
 
-.view-image, .view-image2, .view-image3 {
+.view-box {
     list-style: none;
     padding: 0;
     line-height: 0;
 }
 
-.view-image li, .view-image2 li, .view-image3 li {
+.view-box li {
+    text-align: center;
     position: relative;
+    box-shadow: 0 0 0 1px #eee inset;
 }
 
-.view-image li img, .view-image3 li img {
+.view-box li img {
     width: 100%;
     box-shadow: 0 0 0 6px #fff;
 }
 
-.view-image2 {
-    margin: 2% 0;
-}
-
-.view-image2 li {
-    text-align: center;
-    line-height: 80px;
-    box-shadow: 0 0 0 1px #eee inset;
-}
-
-.view-image2 li:last-child {
-    background: #eee
-}
-
-.view-image li.imgfalse:before, .view-image2 li.imgfalse:before, .view-image3 li.imgfalse:before {
-    content: 'false';
+.view-box li.no-view:before {
+    content: 'NO';
     position: absolute;
     top: 0;
     right: 0;

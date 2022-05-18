@@ -3,38 +3,422 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>ViewImage.js - 1kb minimalist lightbox.</title>
+    <title>ViewImage.js - 2kb minimalist lightbox.</title>
     <meta charset="utf-8">
-    <meta name="description" content="Based on jQuery, only 1kb of responsive minimalist lightbox." />
+    <meta name="description"
+        content="ViewImage gzip compressed to just 2K, small and superb native Native JavaScript lightbox plugin" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Tokin">
     <link rel="stylesheet" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css">
     <link rel="stylesheet" href="static/style.css">
-    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-    <script src="view-image.js?v1.3.1"></script>
-    <script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <script src="view-image.js?v2.0.0"></script>
     <script>
-        jQuery(document).ready(function () {
-            jQuery.viewImage({
-                'target': '.view-image img,.view-image2 a,.view-image3 a',  //需要使用ViewImage的图片
-                'exclude': '.exc',                                          //要排除的图片
-                'delay': 300                                                //延迟时间
-            });
+        var HTMLFormat = (function () {
+            function style_html(html_source, indent_size, indent_character, max_char) {
+                var Parser, multi_parser;
 
-            $('.copy-time').html(new Date().getFullYear());
-        });
+                function Parser() {
 
-        (function () {
-            var link_element = document.createElement("link"),
-                s = document.getElementsByTagName("script")[0];
-            if (window.location.protocol !== "http:" && window.location.protocol !== "https:") {
-                link_element.href = "http:";
+                    this.pos = 0;
+                    this.token = '';
+                    this.current_mode = 'CONTENT';
+                    this.tags = {
+                        parent: 'parent1',
+                        parentcount: 1,
+                        parent1: ''
+                    };
+                    this.tag_type = '';
+                    this.token_text = this.last_token = this.last_text = this.token_type = '';
+
+
+                    this.Utils = {
+                        whitespace: "\n\r\t ".split(''),
+                        single_token: 'br,input,link,meta,!doctype,basefont,base,area,hr,wbr,param,img,isindex,?xml,embed'.split(','),
+                        extra_liners: 'head,body,/html'.split(','),
+                        in_array: function (what, arr) {
+                            for (var i = 0; i < arr.length; i++) {
+                                if (what === arr[i]) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                    }
+
+                    this.get_content = function () {
+                        var char = '';
+                        var content = [];
+                        var space = false;
+                        while (this.input.charAt(this.pos) !== '<') {
+                            if (this.pos >= this.input.length) {
+                                return content.length ? content.join('') : ['', 'TK_EOF'];
+                            }
+
+                            char = this.input.charAt(this.pos);
+                            this.pos++;
+                            this.line_char_count++;
+
+
+                            if (this.Utils.in_array(char, this.Utils.whitespace)) {
+                                if (content.length) {
+                                    space = true;
+                                }
+                                this.line_char_count--;
+                                continue;
+                            } else if (space) {
+                                if (this.line_char_count >= this.max_char) {
+                                    content.push('\n');
+                                    for (var i = 0; i < this.indent_level; i++) {
+                                        content.push(this.indent_string);
+                                    }
+                                    this.line_char_count = 0;
+                                } else {
+                                    content.push(' ');
+                                    this.line_char_count++;
+                                }
+                                space = false;
+                            }
+                            content.push(char);
+                        }
+                        return content.length ? content.join('') : '';
+                    }
+
+                    this.get_script = function () {
+                        var char = '';
+                        var content = [];
+                        var reg_match = new RegExp('\<\/script' + '\>', 'igm');
+                        reg_match.lastIndex = this.pos;
+                        var reg_array = reg_match.exec(this.input);
+                        var end_script = reg_array ? reg_array.index : this.input.length;
+                        while (this.pos < end_script) {
+                            if (this.pos >= this.input.length) {
+                                return content.length ? content.join('') : ['', 'TK_EOF'];
+                            }
+
+                            char = this.input.charAt(this.pos);
+                            this.pos++;
+
+
+                            content.push(char);
+                        }
+                        return content.length ? content.join('') : '';
+                    }
+
+                    this.record_tag = function (tag) {
+                        if (this.tags[tag + 'count']) {
+                            this.tags[tag + 'count']++;
+                            this.tags[tag + this.tags[tag + 'count']] = this.indent_level;
+                        } else {
+                            this.tags[tag + 'count'] = 1;
+                            this.tags[tag + this.tags[tag + 'count']] = this.indent_level;
+                        }
+                        this.tags[tag + this.tags[tag + 'count'] + 'parent'] = this.tags.parent;
+                        this.tags.parent = tag + this.tags[tag + 'count'];
+                    }
+
+                    this.retrieve_tag = function (tag) {
+                        if (this.tags[tag + 'count']) {
+                            var temp_parent = this.tags.parent;
+                            while (temp_parent) {
+                                if (tag + this.tags[tag + 'count'] === temp_parent) {
+                                    break;
+                                }
+                                temp_parent = this.tags[temp_parent + 'parent'];
+                            }
+                            if (temp_parent) {
+                                this.indent_level = this.tags[tag + this.tags[tag + 'count']];
+                                this.tags.parent = this.tags[temp_parent + 'parent'];
+                            }
+                            delete this.tags[tag + this.tags[tag + 'count'] + 'parent'];
+                            delete this.tags[tag + this.tags[tag + 'count']];
+                            if (this.tags[tag + 'count'] == 1) {
+                                delete this.tags[tag + 'count'];
+                            } else {
+                                this.tags[tag + 'count']--;
+                            }
+                        }
+                    }
+
+                    this.get_tag = function () {
+                        var char = '';
+                        var content = [];
+                        var space = false;
+
+                        do {
+                            if (this.pos >= this.input.length) {
+                                return content.length ? content.join('') : ['', 'TK_EOF'];
+                            }
+
+                            char = this.input.charAt(this.pos);
+                            this.pos++;
+                            this.line_char_count++;
+
+                            if (this.Utils.in_array(char, this.Utils.whitespace)) {
+                                space = true;
+                                this.line_char_count--;
+                                continue;
+                            }
+
+                            if (char === "'" || char === '"') {
+                                if (!content[1] || content[1] !== '!') {
+                                    char += this.get_unformatted(char);
+                                    space = true;
+                                }
+                            }
+
+                            if (char === '=') {
+                                space = false;
+                            }
+
+                            if (content.length && content[content.length - 1] !== '=' && char !== '>' && space) {
+                                if (this.line_char_count >= this.max_char) {
+                                    this.print_newline(false, content);
+                                    this.line_char_count = 0;
+                                } else {
+                                    content.push(' ');
+                                    this.line_char_count++;
+                                }
+                                space = false;
+                            }
+                            content.push(char);
+                        } while (char !== '>');
+
+                        var tag_complete = content.join('');
+                        var tag_index;
+                        if (tag_complete.indexOf(' ') != -1) {
+                            tag_index = tag_complete.indexOf(' ');
+                        } else {
+                            tag_index = tag_complete.indexOf('>');
+                        }
+                        var tag_check = tag_complete.substring(1, tag_index).toLowerCase();
+                        if (tag_complete.charAt(tag_complete.length - 2) === '/' || this.Utils.in_array(tag_check, this.Utils.single_token)) {
+                            this.tag_type = 'SINGLE';
+                        } else if (tag_check === 'script') {
+                            this.record_tag(tag_check);
+                            this.tag_type = 'SCRIPT';
+                        } else if (tag_check === 'style') {
+                            this.record_tag(tag_check);
+                            this.tag_type = 'STYLE';
+                        } else if (tag_check.charAt(0) === '!') {
+                            if (tag_check.indexOf('[if') != -1) {
+                                if (tag_complete.indexOf('!IE') != -1) {
+                                    var comment = this.get_unformatted('-->', tag_complete);
+                                    content.push(comment);
+                                }
+                                this.tag_type = 'START';
+                            } else if (tag_check.indexOf('[endif') != -1) {
+                                this.tag_type = 'END';
+                                this.unindent();
+                            } else if (tag_check.indexOf('[cdata[') != -1) {
+                                var comment = this.get_unformatted(']]>', tag_complete);
+                                content.push(comment);
+                                this.tag_type = 'SINGLE';
+                            } else {
+                                var comment = this.get_unformatted('-->', tag_complete);
+                                content.push(comment);
+                                this.tag_type = 'SINGLE';
+                            }
+                        } else {
+                            if (tag_check.charAt(0) === '/') {
+                                this.retrieve_tag(tag_check.substring(1));
+                                this.tag_type = 'END';
+                            } else {
+                                this.record_tag(tag_check);
+                                this.tag_type = 'START';
+                            }
+                            if (this.Utils.in_array(tag_check, this.Utils.extra_liners)) {
+                                this.print_newline(true, this.output);
+                            }
+                        }
+                        return content.join('');
+                    }
+
+                    this.get_unformatted = function (delimiter, orig_tag) {
+                        if (orig_tag && orig_tag.indexOf(delimiter) != -1) {
+                            return '';
+                        }
+                        var char = '';
+                        var content = '';
+                        var space = true;
+                        do {
+
+
+                            char = this.input.charAt(this.pos);
+                            this.pos++
+
+                            if (this.Utils.in_array(char, this.Utils.whitespace)) {
+                                if (!space) {
+                                    this.line_char_count--;
+                                    continue;
+                                }
+                                if (char === '\n' || char === '\r') {
+                                    content += '\n';
+                                    for (var i = 0; i < this.indent_level; i++) {
+                                        content += this.indent_string;
+                                    }
+                                    space = false;
+                                    this.line_char_count = 0;
+                                    continue;
+                                }
+                            }
+                            content += char;
+                            this.line_char_count++;
+                            space = true;
+
+
+                        } while (content.indexOf(delimiter) == -1);
+                        return content;
+                    }
+
+                    this.get_token = function () {
+                        var token;
+
+                        if (this.last_token === 'TK_TAG_SCRIPT') {
+                            var temp_token = this.get_script();
+                            if (typeof temp_token !== 'string') {
+                                return temp_token;
+                            }
+                            //token = js_beautify(temp_token, this.indent_size, this.indent_character, this.indent_level);
+                            //return [token, 'TK_CONTENT'];
+                            return [temp_token, 'TK_CONTENT'];
+                        }
+                        if (this.current_mode === 'CONTENT') {
+                            token = this.get_content();
+                            if (typeof token !== 'string') {
+                                return token;
+                            } else {
+                                return [token, 'TK_CONTENT'];
+                            }
+                        }
+
+                        if (this.current_mode === 'TAG') {
+                            token = this.get_tag();
+                            if (typeof token !== 'string') {
+                                return token;
+                            } else {
+                                var tag_name_type = 'TK_TAG_' + this.tag_type;
+                                return [token, tag_name_type];
+                            }
+                        }
+                    }
+
+                    this.printer = function (js_source, indent_character, indent_size, max_char) {
+                        this.input = js_source || '';
+                        this.output = [];
+                        this.indent_character = indent_character || ' ';
+                        this.indent_string = '';
+                        this.indent_size = indent_size || 2;
+                        this.indent_level = 0;
+                        this.max_char = max_char || 70;
+                        this.line_char_count = 0;
+                        for (var i = 0; i < this.indent_size; i++) {
+                            this.indent_string += this.indent_character;
+                        }
+
+                        this.print_newline = function (ignore, arr) {
+                            this.line_char_count = 0;
+                            if (!arr || !arr.length) {
+                                return;
+                            }
+                            if (!ignore) {
+                                while (this.Utils.in_array(arr[arr.length - 1], this.Utils.whitespace)) {
+                                    arr.pop();
+                                }
+                            }
+                            arr.push('\n');
+                            for (var i = 0; i < this.indent_level; i++) {
+                                arr.push(this.indent_string);
+                            }
+                        }
+
+
+                        this.print_token = function (text) {
+                            this.output.push(text);
+                        }
+
+                        this.indent = function () {
+                            this.indent_level++;
+                        }
+
+                        this.unindent = function () {
+                            if (this.indent_level > 0) {
+                                this.indent_level--;
+                            }
+                        }
+                    }
+                    return this;
+                }
+
+
+
+
+                multi_parser = new Parser();
+                multi_parser.printer(html_source, indent_character, indent_size);
+                while (true) {
+                    var t = multi_parser.get_token();
+                    multi_parser.token_text = t[0];
+                    multi_parser.token_type = t[1];
+
+                    if (multi_parser.token_type === 'TK_EOF') {
+                        break;
+                    }
+
+
+                    switch (multi_parser.token_type) {
+                        case 'TK_TAG_START':
+                        case 'TK_TAG_SCRIPT':
+                        case 'TK_TAG_STYLE':
+                            multi_parser.print_newline(false, multi_parser.output);
+                            multi_parser.print_token(multi_parser.token_text);
+                            multi_parser.indent();
+                            multi_parser.current_mode = 'CONTENT';
+                            break;
+                        case 'TK_TAG_END':
+                            multi_parser.print_newline(true, multi_parser.output);
+                            multi_parser.print_token(multi_parser.token_text);
+                            multi_parser.current_mode = 'CONTENT';
+                            break;
+                        case 'TK_TAG_SINGLE':
+                            multi_parser.print_newline(false, multi_parser.output);
+                            multi_parser.print_token(multi_parser.token_text);
+                            multi_parser.current_mode = 'CONTENT';
+                            break;
+                        case 'TK_CONTENT':
+                            if (multi_parser.token_text !== '') {
+                                multi_parser.print_newline(false, multi_parser.output);
+                                multi_parser.print_token(multi_parser.token_text);
+                            }
+                            multi_parser.current_mode = 'TAG';
+                            break;
+                    }
+                    multi_parser.last_token = multi_parser.token_type;
+                    multi_parser.last_text = multi_parser.token_text;
+                }
+                return multi_parser.output.join('');
             }
-            link_element.href += "//fonts.proxy.ustclug.org/css?family=Exo+2:100italic,100,200italic,200,300italic,300,400italic,400,500italic,500,600italic,600,700italic,700,800italic,800,900italic,900";
-            link_element.rel = "stylesheet";
-            link_element.type = "text/css";
-            s.parentNode.insertBefore(link_element, s);
+
+            return function (data) {
+                var dataHolder = ['__dataHolder_', [Math.random(), Math.random(), Math.random(), Math.random()].join('_').replace(/[^0-9]/g, '_'), '_'].join('_');
+                var dataHolders = {};
+                var index = 0;
+                data = data.replace(/(\")(data:[^\"]*)(\")/g, function ($0, $1, $2, $3) {
+                    var name = dataHolder + index++;
+                    dataHolders[name] = $2;
+                    return $1 + name + $3;
+                })
+                data = style_html(data, 1, '    ', 0x10000000);
+                data = data.replace(new RegExp(dataHolder + '[0-9]+', 'g'), function ($0) {
+                    return dataHolders[$0];
+                });
+
+                return data;
+            }
         })();
+
+        function printHTML(id) {
+            const html = document.querySelector(id).outerHTML.replaceAll('=""', '');
+            document.write(HTMLFormat(html).replace(/[<>]/g, c => ({ '<': '&lt;', '>': '&gt;' }[c])))
+        }
     </script>
 </head>
 
@@ -52,7 +436,7 @@
                 </ul>
             </div>
             <h1>ViewImage.js</h1>
-            <h2>基于jQuery ，Gzip后不足 1kb 的响应式极简灯箱插件</h2>
+            <h2>Gzip后仅 2kb，小巧卓越的原生JavaScript灯箱插件</h2>
         </div>
         <div class="content">
             <h2 id="id-get" class="content-subhead">获取</h2>
@@ -69,11 +453,8 @@
 
             <h2 id="id-help" class="content-subhead">引用</h2>
             <p>
-                首先确保你的页面已经正确引用jQuery（建议2.0+），然后再引用ViewImage.js。
-            </p>
-            <p>
-                <pre
-                    class="code prettyprint"><code>&lt;script src=&quot;//tokinx.github.io/ViewImage/view-image.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+            <pre
+                class="code prettyprint lang-html"><code>&lt;script src=&quot;//tokinx.github.io/ViewImage/view-image.min.js&quot;&gt;&lt;/script&gt;</code></pre>
             </p>
 
             <h2 id="id-start" class="content-subhead">启用</h2>
@@ -81,14 +462,17 @@
                 我们为您提供了非常简便的初始化方法，方便您对程序进行一些个性化设置并正确启用
             </p>
             <p>
-                <pre class="code prettyprint"><code>&lt;script&gt;
-    jQuery(document).ready(function () {
-        jQuery.viewImage({
-            &#x27;target&#x27; : &#x27;.view-image img&#x27;, //需要使用ViewImage的图片
-            &#x27;exclude&#x27;: &#x27;.exclude img&#x27;,    //要排除的图片
-            &#x27;delay&#x27;  : 300                //延迟时间
-        });
-    });
+            <pre class="code prettyprint lang-html"><code>&lt;script&gt;
+    window.ViewImage && ViewImage.init('.content img');
+&lt;/script&gt;</code></pre>
+            </p>
+            <p>使用 <code>view-image</code> 属性控制灯箱范围</p>
+            <p>使用 <code>no-view</code> 属性排除一些图片</p>
+
+            <h3 id="id-demo" class="content-subhead">独立使用</h3>
+            <p>
+            <pre class="code prettyprint lang-html"><code>&lt;script&gt;
+    ViewImage.display([图片URL数组], '当前展示的图片URL')
 &lt;/script&gt;</code></pre>
             </p>
 
@@ -97,81 +481,37 @@
                 我们提供了几个DEMO，方便您进一步了解ViewImage
             </p>
             <p>
-                <pre class="code prettyprint"><code>&lt;script&gt;
-    jQuery(document).ready(function () {
-        jQuery.viewImage({
-            &#x27;target&#x27;: &#x27;.view-image img,.view-image2 a,.view-image3 a&#x27;,
-            &#x27;exclude&#x27;: &#x27;.exc&#x27;,
-            &#x27;delay&#x27;: 300
-        });
-    });
+            <pre class="code prettyprint lang-html"><code>&lt;script&gt;
+    window.ViewImage && ViewImage.init('#DEMO-1 img, #DEMO-2 a, #DEMO-3 a');
 &lt;/script&gt;</code></pre>
             </p>
+            
             <h3 class="content-subhead">[图片]</h3>
-            <ul class="view-image pure-g">
-                <li class="pure-u-1-4"><img src="static/BHPY1.jpg" alt="bingImg"></li>
-                <li class="pure-u-1-4"><img src="static/BHPY2.jpg" alt="bingImg"></li>
-                <li class="pure-u-1-4"><img src="static/BHPY6.jpg" alt="bingImg"></li>
-                <li class="pure-u-1-4 imgfalse"><img src="static/BHPY7.jpg" alt="bingImg" class="exc"></li>
+            <ul id="DEMO-1" class="view-box pure-g" view-image>
+                <li class="pure-u-1-4"><img src="static/BHPY1.jpg" alt="Bing Img"></li>
+                <li class="pure-u-1-4"><img src="static/BHPY2.jpg" alt="Bing Img"></li>
+                <li class="pure-u-1-4"><img src="static/BHPY3.jpg" alt="Bing Img"></li>
+                <li class="pure-u-1-4 no-view"><img src="static/BHPY4.jpg" alt="Bing Img" no-view></li>
             </ul>
-            <pre class="code prettyprint"><code>&lt;ul class=&quot;view-image&quot;&gt;
-    &lt;li&gt;&lt;img src=&quot;原图&quot;&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;img src=&quot;原图&quot;&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;img src=&quot;原图&quot;&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;img src=&quot;原图&quot; class=&quot;exc&quot;&gt;&lt;/li&gt;
-&lt;/ul&gt;</code></pre>
+            <pre class="code prettyprint lang-html"><code><script>printHTML('#DEMO-1')</script></code></pre>
+
             <h3 class="content-subhead">[链接] + [文字]</h3>
-            <ul class="view-image2 pure-g">
-                <li class="pure-u-1-2"><a href="static/BHPY2.jpg">可用</a></li>
-                <li class="pure-u-1-2 imgfalse"><a href="static/BHPY6.jpg" class="exc">不可用</a></li>
+            <ul id="DEMO-2" class="view-box href-test pure-g" view-image>
+                <li class="pure-u-1-2" style="padding: 10% 0;"><a href="static/BHPY2.jpg">可用</a></li>
+                <li class="pure-u-1-2 no-view" style="padding: 10% 0;"><a href="static/BHPY3.jpg" no-view>不可用</a></li>
             </ul>
-            <pre class="code prettyprint"><code>&lt;ul class=&quot;view-image2&quot;&gt;
-    &lt;li&gt;&lt;a href=&quot;原图&quot;&gt;可用&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;原图&quot; class=&quot;exc&quot;&gt;不可用&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</code></pre>
+            <pre class="code prettyprint lang-html"><code><script>printHTML('#DEMO-2')</script></code></pre>
+
             <h3 class="content-subhead">[链接] + [缩略图]</h3>
-            <ul class="view-image3 pure-g">
+            <ul id="DEMO-3" class="view-box href-test pure-g" view-image>
                 <li class="pure-u-1-2">
-                    <a href="static/BHPY6.jpg"><img src="static/BHPY1.jpg" alt="bingImg"></a>
+                    <a href="static/BHPY2.jpg"><img src="static/BHPY2.jpg" alt="Bing Img"></a>
                 </li>
-                <li class="pure-u-1-2 imgfalse">
-                    <a href="static/BHPY6.jpg" class="exc"><img src="static/BHPY7.jpg" alt="bingImg"></a>
+                <li class="pure-u-1-2 no-view">
+                    <a href="static/BHPY3.jpg" no-view><img src="static/BHPY3.jpg" alt="Bing Img"></a>
                 </li>
             </ul>
-            <pre class="code prettyprint"><code>&lt;ul class=&quot;view-image3&quot;&gt;
-    &lt;li&gt;&lt;a href=&quot;原图&quot;&gt;&lt;img src=&quot;缩略图 或 原图&quot;&gt;&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;原图&quot; class=&quot;exc&quot;&gt;&lt;img src=&quot;缩略图 或 原图&quot;&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</code></pre>
-            <h2 id="id-cpb" class="content-subhead">兼容性</h2>
-            <table class="pure-table">
-                <thead>
-                    <tr>
-                        <th>D\T</th>
-                        <th>Firefox</th>
-                        <th>Chrome</th>
-                        <th>MSIE</th>
-                        <th>Safari</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr class="pure-table-odd">
-                        <td>PC</td>
-                        <td>>=3.5</td>
-                        <td>Yes</td>
-                        <td>>=9</td>
-                        <td>>=3.1</td>
-                    </tr>
-
-                    <tr>
-                        <td>Mobile</td>
-                        <td>Null</td>
-                        <td>Null</td>
-                        <td>Null</td>
-                        <td>Null</td>
-                    </tr>
-                </tbody>
-            </table>
+            <pre class="code prettyprint lang-html"><code><script>printHTML('#DEMO-3')</script></code></pre>
         </div>
 
 
@@ -191,6 +531,11 @@
 
         </div>
     </div>
+
+    <script>
+        window.ViewImage && ViewImage.init('#DEMO-1 img, #DEMO-2 a, #DEMO-3 a');
+    </script>
+    <script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 
 </body>
 
