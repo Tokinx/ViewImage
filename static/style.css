@@ -678,6 +678,10 @@ a.pure-button-primary {
 
 }
 
+pre.prettyprint {
+    overflow: auto;
+}
+
 .biji-navs {
     display: none;
 }
